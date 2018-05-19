@@ -21,5 +21,9 @@ module.exports = (sequilize, DataType) => {
         }
     });
 
+    Tasks.associate = models => {
+        Tasks.belongsTo(models.Users);
+    };
+
     return Tasks;
 };

@@ -42,8 +42,18 @@ module.exports = (app) => {
             res.status(500).json({ msg: error.message });
         });
     })    
-    .put((req, res) => {
-        Tasks.update(req.body, {
+    .put([
+        body('title', 'Required field').exists(),
+        body('title', 'Invalid length').trim().isLength({min:1, max:255}),
+        body('done', 'Required field').exists(),
+        body('done', 'Not a boolean').isBoolean()
+    ], (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+           return res.status(400).json({errors: errors.array()});
+        }
+
+        Tasks.update(matchedData(req), {
             where: {
                 id: req.params.id
             }
