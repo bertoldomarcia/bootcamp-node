@@ -1,11 +1,13 @@
 const express = require('express');
-const port = 3000;
+const consign = require('consign');
 const app = express();
 
-app.listen(port, () => {
-    console.log(`bootcamp API - porta ${port}`);
-});
+consign()
+    .include('libs/middlewares.js')
+    .then('routes')
+    .then('libs/boot.js')
+    .into(app);
 
-app.get('/', (req, res) => {
-    res.json({status: 'Bootcamp API Ok!'});
-});
+
+
+
