@@ -4,8 +4,10 @@
   "description": "API de gestao de tarefas",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "author": "Marcia Bertoldo",
-  "license": "ISC"
+  "dependencies": {
+    "express": "^4.16.3"
+  }
 }
