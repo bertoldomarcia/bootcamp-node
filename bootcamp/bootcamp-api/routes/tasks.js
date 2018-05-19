@@ -1,3 +1,6 @@
+const {body, validationResult} = require('express-validator/check');
+const {matchesData} = require('express-validator/filter');
+
 module.exports = (app) => {
     const Tasks = app.db.models.Tasks;
 
@@ -11,8 +14,16 @@ module.exports = (app) => {
             res.status(500).json({ msg: error.message });
         });
     })
-    .post((req, res) => {
-        Tasks.create(req.body)
+    .post([
+        body('title', 'Required field').exists(),
+        body('title', 'Invalid length').trim().isLength({min:1, max:255})
+    ], (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+           return res.status(400).json({errors: errors.array()});
+        }
+
+        Tasks.create(matchedData(req))
         .then(result => {
             res.json(result);
         })
