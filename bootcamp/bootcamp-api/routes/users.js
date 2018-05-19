@@ -14,7 +14,12 @@ module.exports = app => {
                 return res.status(409).json({msg: "Email already in use"});
             }
 
-            const result = await Users.create(req.body);
+            let result = await Users.create(req.body);
+            result = await Users.findById(result.id, {
+                attributes: ['id', 'name', 'email']
+            });
+         
+
             res.json(result);
 
         } catch (error) {
