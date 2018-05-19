@@ -8,5 +8,9 @@ module.exports = {
         define: {
             underscored: true
         }    
+    },
+    jwtSecret: "B007CAMP-API",
+    jwtSession: {
+        session: false
     }
 };

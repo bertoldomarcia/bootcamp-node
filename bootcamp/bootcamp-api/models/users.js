@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt-nodejs');
+
 module.exports = ( sequelize, DataType ) => {
     const Users = sequelize.define('Users', {
         id: {
@@ -33,6 +35,15 @@ module.exports = ( sequelize, DataType ) => {
         Users.hasMany(models.Tasks, {
             onDelete: 'CASCADE'
         });
+    };
+
+    Users.hook('beforeCreate', user => {
+        const salt = bcrypt.genSaltSync();
+        user.password = bcrypt.hashSync(user.password, salt);
+    });
+
+    Users.isPassword = (encodePassword, password) => {
+        return bcrypt.compareSync(password, encodePassword);
     };
 
     return Users;
