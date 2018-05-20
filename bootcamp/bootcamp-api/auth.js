@@ -13,12 +13,14 @@ module.exports = (app) => {
     const strategy = new Strategy(params, 
         async(payload, done) => {
             try {
+                console.log(payload.id);
+                // const users = await Users.findById(2);
                 const users = await Users.findById(payload.id);
 
                 if (users) {
                     return done(null, {
-                        id: user.id,
-                        email: user.email
+                        id: users.id,
+                        email: users.email
                     })
                 } else {
                     return done(null, false);

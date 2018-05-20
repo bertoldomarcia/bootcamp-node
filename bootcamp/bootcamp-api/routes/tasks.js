@@ -1,5 +1,6 @@
-const {body, validationResult} = require('express-validator/check');
-const {matchesData} = require('express-validator/filter');
+const { body, validationResult } = require('express-validator/check');
+// const { matchesData } = require('express-validator/filter');
+const { matchedData } = require('express-validator/filter');
 
 module.exports = (app) => {
     const Tasks = app.db.models.Tasks;
@@ -13,6 +14,7 @@ module.exports = (app) => {
             }
         })
         .then(result => {
+            console.log(result);
             res.json(result);
         })
         .catch(error => {
@@ -30,6 +32,8 @@ module.exports = (app) => {
 
         const task = matchedData(req);
         task.user_id = req.user.id;
+        // task.title = req.body.title;
+        // task.done = req.body.done;
 
         Tasks.create(task)
         .then(result => {
@@ -81,6 +85,8 @@ module.exports = (app) => {
         });        
     })
     .delete((req, res) => {
+        // console.log(req.params.id);
+        // console.log(req.users.id);
         Tasks.destroy({
             where: {
                 id: req.params.id,

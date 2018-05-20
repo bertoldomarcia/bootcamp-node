@@ -12,10 +12,11 @@ module.exports = app => {
                 email: req.body.email
             }
         });
-
+        
         if (user) {
             if (Users.isPassword(user.password, req.body.password)) {
                 const payload = {
+                    id: user.id,
                     email: req.body.email
                 };
 

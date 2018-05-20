@@ -22,8 +22,14 @@ module.exports = (sequilize, DataType) => {
     });
 
     Tasks.associate = models => {
-        Tasks.belongsTo(models.Users);
+        // Tasks.belongsTo(models.Users);
+        Tasks.belongsTo(models.Users, {
+            foreignKey: 'user_id',
+            onDelete: 'CASCADE'
+          });
     };
+
+
 
     return Tasks;
 };
