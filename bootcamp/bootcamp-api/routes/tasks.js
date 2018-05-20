@@ -50,7 +50,7 @@ module.exports = (app) => {
         Tasks.findOne({
             where: {
                 id: req.params.id,
-                user_id: req.users.id
+                user_id: req.user.id
             }
         })
         .then(result => {
@@ -74,27 +74,25 @@ module.exports = (app) => {
         Tasks.update(matchedData(req), {
             where: {
                 id: req.params.id,
-                user_id: req.users.id
+                user_id: req.user.id
             }
         })
         .then(() => {
-            res.sendStatus(204);
+            res.sendStatus(200);
         })
         .catch(error => {
             res.status(500).json({ msg: error.message });
         });        
     })
     .delete((req, res) => {
-        // console.log(req.params.id);
-        // console.log(req.users.id);
         Tasks.destroy({
             where: {
                 id: req.params.id,
-                user_id: req.users.id
+                user_id: req.user.id
             }
         })
         .then(() => {
-            res.sendStatus(204);
+            res.sendStatus(200);
         })
         .catch(error => {
             res.status(500).json({ msg: error.message });
